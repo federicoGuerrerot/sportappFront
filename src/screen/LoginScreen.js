@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import { SafeAreaView, View, Text, TextInput } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -6,6 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
 
 const LoginScreen = ({navigation}) => {
+
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const {login} = useContext(AuthContext);
+    
     return (
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <View style = {{alignItems: 'center', paddingHorizontal: 25}}>
@@ -14,6 +19,8 @@ const LoginScreen = ({navigation}) => {
                     <TextInput style = {styles.input}
                         placeholder = "Email"
                         KeyboardType = "email-address"
+                        value={email}
+                        onChangeText = {(text) => setEmail(text)}
                     />
                 </view>
                 <view style = {styles.contInput}>
@@ -21,10 +28,12 @@ const LoginScreen = ({navigation}) => {
                     <TextInput style = {styles.input}
                         placeholder = "Contraseña"
                         secureTextEntry = {true}
+                        value={password}
+                        onChangeText = {(text) => setPassword(text)}
                     />
                 </view>
                 <TouchableOpacity 
-                    onPress={() => {}}
+                    onPress={() => {login(email, password)}}
                     style = {styles.btnLogin}>
                     <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 18}}>Iniciar Sesión</Text>
                 </TouchableOpacity>
