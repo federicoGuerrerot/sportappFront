@@ -11,11 +11,13 @@ const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    // const {login} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
     
     return (
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <View style = {{alignItems: 'center', paddingHorizontal: 25}}>
+                <Text>{user}</Text>
                 <View style = {styles.contInput}>
                     <MaterialIcons name = "email" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
@@ -35,8 +37,7 @@ const LoginScreen = ({navigation}) => {
                     />
                 </View>
                 <TouchableOpacity 
-                    // onPress={() => {login(email, password)}}
-                    onPress={() => {navigation.navigate("Home")}}
+                    onPress={() => {login(email, password)}}
                     style = {styles.btnLogin}>
                     <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 18}}>Iniciar Sesión</Text>
                 </TouchableOpacity>

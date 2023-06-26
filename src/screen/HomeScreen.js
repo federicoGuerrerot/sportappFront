@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, View, Text, StyleSheet, Image } from 'react-native';
 
 const HomeScreen = ({navigation}) => {
-
     return (
         <View style={ styles.mainView }>
             <Image

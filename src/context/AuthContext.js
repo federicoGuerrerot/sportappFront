@@ -1,28 +1,29 @@
-import React, {createContext} from "react";
+import React, {createContext, useState, useEffect} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState('caremonda');
 
     const login = (email, password) => {
-        try {
-            const response = fetch('http://localhost:8000/api/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            });
-            const json = response.json();
-            setUser(json.access_token);
-        } catch (error) {
-            console.error(error);
-        }
+        // try {
+        //     const response = fetch('http://localhost:8000/api/users/login', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             email: email,
+        //             password: password,
+        //         }),
+        //     });
+        //     const json = response.json();
+        //     setUser(json.access_token);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+        setUser('token1');
         AsyncStorage.setItem('user', user);
     }
 
@@ -33,19 +34,19 @@ export const AuthProvider = ({children}) => {
 
     const isLogged = async() => {
         try{
-            let user = await AsyncStorage.getItem('user');
-            setUser(JSON.parse(user));
+            // let user = await AsyncStorage.getItem('user');
+            setUser('token');
         }catch(error){
             console.log(error);
         }
     }
 
-    // useEffect(() => {
-    //     isLogged();
-    // }, []);
+    useEffect(() => {
+        isLogged();
+    }, []);
 
     return (
-        <AuthContext.Provider value = {{login, logout, user}}>
+        <AuthContext.Provider value = {{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
