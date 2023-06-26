@@ -7,6 +7,8 @@ const HomeScreen = ({navigation}) => {
     const { logout } = useContext(AuthContext);
     return (
         <View style={ styles.mainView }>
+
+            {/* Poner mapa aqui */}
             <Image
                 style={ {
                     width: 100,
@@ -19,6 +21,8 @@ const HomeScreen = ({navigation}) => {
             <Text style={ {color: 'orange', fontSize: 20, fontWeight: 'bold', margin: 10} }>
                 Aqui va el MAPA
             </Text>
+            <Text>{user}</Text>
+            {/* Condicional para saber que navegacion usar */}
             {user !== null ? 
             <View>
             <Button
@@ -40,7 +44,7 @@ const HomeScreen = ({navigation}) => {
                 } } 
             />
             </View>
-            : 
+            : // else
             <View>
             <Button
                 title="Login"

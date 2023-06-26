@@ -5,9 +5,20 @@ import AuthStack from "./AuthStack";
 import AppStack from "./AppStack";
 
 import { AuthContext } from "../context/AuthContext";
+import { View } from "react-native-web";
+import { ActivityIndicator } from "react-native";
 
 function AppNav() {
-    const { user } = useContext(AuthContext);
+    const { carga, user } = useContext(AuthContext);
+
+    if (carga) {
+      return(
+        <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    }
+
     return (
         <NavigationContainer>
           {user !== null ? <AppStack /> : <AuthStack />}

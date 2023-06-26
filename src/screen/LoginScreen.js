@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}) => {
                         placeholder = "Email"
                         KeyboardType = "email-address"
                         value={email}
-                        onChangeText = {(text) => setEmail(text)}
+                        onChangeText = {text => setEmail(text)}
                     />
                 </View>
                 <View style = {styles.contInput}>
@@ -31,7 +31,7 @@ const LoginScreen = ({navigation}) => {
                         placeholder = "Contraseña"
                         secureTextEntry = {true}
                         value={password}
-                        onChangeText = {(text) => setPassword(text)}
+                        onChangeText = {text => setPassword(text)}
                     />
                 </View>
                 <TouchableOpacity 

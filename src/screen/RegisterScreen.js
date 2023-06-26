@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import { SafeAreaView, View, ScrollView, Text, TextInput } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -6,21 +6,41 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
 
 const RegisterScreen = ({navigation}) => {
+    
+    const [nombre, setNombre] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [telefono, setTelefono] = useState(null);
+    const [password, setPassword] = useState(null);
+    const {register} = useContext(AuthContext);
+
     return (
-
-        // dto backend
-        // public readonly string $name,
-        // public readonly string $email,
-        // public readonly ?string $telefono,
-        // public Hash|string $password
-
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <ScrollView ShowVerticalScrollIndicator={false} style = {{paddingHorizontal: 25}}>
+                <View style = {styles.contInput}>
+                    <MaterialIcons name = "name" size = {24} color = "black" style = {{marginRight: 5}}/>
+                    <TextInput style = {styles.input}
+                        placeholder = "Nombre"
+                        KeyboardType = "name"
+                        value={nombre}
+                        onChangeText = {text => setNombre(text)}
+                    />
+                </View>
                 <View style = {styles.contInput}>
                     <MaterialIcons name = "email" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Email"
                         KeyboardType = "email-address"
+                        value={email}
+                        onChangeText = {text => setEmail(text)}
+                    />
+                </View>
+                <View style = {styles.contInput}>
+                    <MaterialIcons name = "telefono" size = {24} color = "black" style = {{marginRight: 5}}/>
+                    <TextInput style = {styles.input}
+                        placeholder = "Telefono"
+                        KeyboardType = "phone-pad"
+                        value={telefono}
+                        onChangeText = {text => setTelefono(text)}
                     />
                 </View>
                 <View style = {styles.contInput}>
@@ -28,6 +48,8 @@ const RegisterScreen = ({navigation}) => {
                     <TextInput style = {styles.input}
                         placeholder = "Contraseña"
                         secureTextEntry = {true}
+                        value={password}
+                        onChangeText = {text => setPassword(text)}
                     />
                 </View>
                 <TouchableOpacity 
