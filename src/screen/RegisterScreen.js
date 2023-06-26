@@ -7,34 +7,41 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const RegisterScreen = ({navigation}) => {
     return (
+
+        // dto backend
+        // public readonly string $name,
+        // public readonly string $email,
+        // public readonly ?string $telefono,
+        // public Hash|string $password
+
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
-            <ScrollView ShowVerticalScrollIndicator={false} style = {{alignItems: 'center', paddingHorizontal: 25}}>
-                <view style = {styles.contInput}>
+            <ScrollView ShowVerticalScrollIndicator={false} style = {{paddingHorizontal: 25}}>
+                <View style = {styles.contInput}>
                     <MaterialIcons name = "email" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Email"
                         KeyboardType = "email-address"
                     />
-                </view>
-                <view style = {styles.contInput}>
+                </View>
+                <View style = {styles.contInput}>
                     <Ionicons name = "ios-lock-closed-outline" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Contraseña"
                         secureTextEntry = {true}
                     />
-                </view>
+                </View>
                 <TouchableOpacity 
                     onPress={() => {}}
                     style = {styles.btnLogin}>
                     <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 18}}>Crear cuenta</Text>
                 </TouchableOpacity>
-                <view style = {{flexDirection: 'row', justifyContent: 'center'}}>
+                <View style = {{flexDirection: 'row', justifyContent: 'center'}}>
                     <Text style = {{fontSize: 16}}>¿Ya estas registrado?</Text>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}>
                         <Text style = {{fontSize: 16, fontWeight: 'bold', marginLeft: 5}}>Inicia Sesión</Text>
                     </TouchableOpacity>
-                </view>
+                </View>
             </ScrollView>
         </SafeAreaView>
     );

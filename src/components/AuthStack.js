@@ -1,11 +1,10 @@
 import React from "react";
 
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
+import HomeScreen from "../screen/HomeScreen";
+import LoginScreen from "../screen/LoginScreen";
+import RegisterScreen from "../screen/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +22,7 @@ export default function App() {
                   name="Home"
                   component={ HomeScreen }
                   options={ {
-                      title: 'Inicio',
+                      title: 'SportApp',
                       headerTitleStyle: {
                           fontWeight: 'bold',
                           fontSize: 20

@@ -19,7 +19,7 @@ export const AuthProvider = ({children}) => {
                 }),
             });
             const json = response.json();
-            setUser(json.data.token);
+            setUser(json.access_token);
         } catch (error) {
             console.error(error);
         }
@@ -40,9 +40,9 @@ export const AuthProvider = ({children}) => {
         }
     }
 
-    useEffect(() => {
-        isLogged();
-    }, []);
+    // useEffect(() => {
+    //     isLogged();
+    // }, []);
 
     return (
         <AuthContext.Provider value = {{login, logout, user}}>

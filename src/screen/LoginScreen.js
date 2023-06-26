@@ -5,16 +5,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
 
+import { AuthContext } from '../context/AuthContext';
+
 const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const {login} = useContext(AuthContext);
+    // const {login} = useContext(AuthContext);
     
     return (
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <View style = {{alignItems: 'center', paddingHorizontal: 25}}>
-                <view style = {styles.contInput}>
+                <View style = {styles.contInput}>
                     <MaterialIcons name = "email" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Email"
@@ -22,8 +24,8 @@ const LoginScreen = ({navigation}) => {
                         value={email}
                         onChangeText = {(text) => setEmail(text)}
                     />
-                </view>
-                <view style = {styles.contInput}>
+                </View>
+                <View style = {styles.contInput}>
                     <Ionicons name = "ios-lock-closed-outline" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Contraseña"
@@ -31,19 +33,20 @@ const LoginScreen = ({navigation}) => {
                         value={password}
                         onChangeText = {(text) => setPassword(text)}
                     />
-                </view>
+                </View>
                 <TouchableOpacity 
-                    onPress={() => {login(email, password)}}
+                    // onPress={() => {login(email, password)}}
+                    onPress={() => {navigation.navigate("Home")}}
                     style = {styles.btnLogin}>
                     <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 18}}>Iniciar Sesión</Text>
                 </TouchableOpacity>
-                <view style = {{flexDirection: 'row', justifyContent: 'center'}}>
+                <View style = {{flexDirection: 'row', justifyContent: 'center'}}>
                     <Text style = {{fontSize: 16}}>¿No tienes una cuenta?</Text>
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Register')}>
                         <Text style = {{fontSize: 16, fontWeight: 'bold', marginLeft: 5}}>Registrate</Text>
                     </TouchableOpacity>
-                </view>
+                </View>
             </View>
         </SafeAreaView>
     );

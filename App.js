@@ -1,21 +1,22 @@
-import React, {useContext} from "react";
+// import React, {useContext} from "react";
+import React from "react";
+import { SafeAreaView, View, ScrollView, Text, TextInput } from 'react-native';
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 
-import AuthStack from "./components/authStack";
-import AppStack from "./components/appStack";
-import { AuthProvider } from "./context/AuthContext";
-
-const Stack = createStackNavigator();
+import AuthStack from "./src/components/AuthStack";
+import AppStack from "./src/components/AppStack";
+import { AuthContext } from "./src/context/AuthContext";
+import { AuthProvider } from "./src/context/AuthContext";
 
 export default function App() {
-  const {user} = useContext(AuthContext);
+  // const {user} = useContext(AuthContext);
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        {user ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
-    </AuthProvider>
+    // <AuthProvider>
+    <NavigationContainer>
+      {/* {user !== null ? <AppStack /> : <AuthStack />} */}
+      <AuthStack />
+    </NavigationContainer>
+  // </AuthProvider>
   );
 }
