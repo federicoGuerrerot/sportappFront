@@ -1,9 +1,12 @@
 import React, {useContext, useState} from 'react';
 import { SafeAreaView, View, ScrollView, Text, TextInput } from 'react-native';
 
+import { AuthContext } from "../context/AuthContext";
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
+
 
 const RegisterScreen = ({navigation}) => {
     
@@ -53,7 +56,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                 </View>
                 <TouchableOpacity 
-                    onPress={() => {}}
+                    onPress={() => {register(nombre, email, telefono, password)}}
                     style = {styles.btnLogin}>
                     <Text style = {{color: 'white', fontWeight: 'bold', fontSize: 18}}>Crear cuenta</Text>
                 </TouchableOpacity>

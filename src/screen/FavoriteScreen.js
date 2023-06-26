@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // dto places
 // id' =>$this->id,
@@ -17,9 +18,17 @@ const FavoriteScreen = ({navigation, route}) => {
 
     const getPlaces = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/places');
-            const json = await response.json();
-            setPlaces(json.data);
+            const response = await fetch('http://localhost:8000/api/places', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${await AsyncStorage.getItem('user')}`,
+                }
+            }).then(response => response.json())
+            .then(json => {
+                setPlaces(json.data);
+            });
         } catch (error) {
             console.error(error);
         }

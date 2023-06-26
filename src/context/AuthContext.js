@@ -50,7 +50,7 @@ export const AuthProvider = ({children}) => {
                     Accept: 'application/json',
                 },
                 body: JSON.stringify({
-                    nombre: nombre,
+                    name: nombre,
                     email: email,
                     telefono: telefono,
                     password: password,
