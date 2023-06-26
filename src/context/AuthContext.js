@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState('caremonda');
+    const [user, setUser] = useState(null);
 
     const login = (email, password) => {
         // try {
@@ -34,8 +34,8 @@ export const AuthProvider = ({children}) => {
 
     const isLogged = async() => {
         try{
-            // let user = await AsyncStorage.getItem('user');
-            setUser('token');
+            let user = await AsyncStorage.getItem('user');
+            setUser(user);
         }catch(error){
             console.log(error);
         }

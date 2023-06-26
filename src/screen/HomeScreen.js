@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Button, View, Text, StyleSheet, Image } from 'react-native';
+import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = ({navigation}) => {
+    const { user } = useContext(AuthContext);
+    const { logout } = useContext(AuthContext);
     return (
         <View style={ styles.mainView }>
             <Image
@@ -16,6 +19,29 @@ const HomeScreen = ({navigation}) => {
             <Text style={ {color: 'orange', fontSize: 20, fontWeight: 'bold', margin: 10} }>
                 Aqui va el MAPA
             </Text>
+            {user !== null ? 
+            <View>
+            <Button
+                title="Favoritos"
+                onPress={ () => {
+                    navigation.navigate("Favoritos")
+                } }
+            />
+            <Button
+                title="Perfil"
+                onPress={ () => {
+                    navigation.navigate("Profile")
+                } }
+            />
+            <Button
+                title="Logout"
+                onPress={ () => {
+                    {logout()}
+                } } 
+            />
+            </View>
+            : 
+            <View>
             <Button
                 title="Login"
                 onPress={ () => {
@@ -28,6 +54,7 @@ const HomeScreen = ({navigation}) => {
                     navigation.navigate("Register")
                 } }
             />
+            </View>}
         </View>
     )
 };

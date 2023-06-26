@@ -7,11 +7,10 @@ import AppStack from "./AppStack";
 import { AuthContext } from "../context/AuthContext";
 
 function AppNav() {
-    // const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     return (
         <NavigationContainer>
-          {/* {user !== null ? <AppStack /> : <AuthStack />} */}
-          <AuthStack />
+          {user !== null ? <AppStack /> : <AuthStack />}
         </NavigationContainer>
     );
   }
