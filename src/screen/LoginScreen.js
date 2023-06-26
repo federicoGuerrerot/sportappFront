@@ -11,13 +11,11 @@ const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const { user } = useContext(AuthContext);
     const {login} = useContext(AuthContext);
     
     return (
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <View style = {{alignItems: 'center', paddingHorizontal: 25}}>
-                <Text>{user}</Text>
                 <View style = {styles.contInput}>
                     <MaterialIcons name = "email" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
