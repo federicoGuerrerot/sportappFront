@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileScreen = ({navigation, route}) => {
 
-    // const {userinfo} = useContext(AuthContext);
     const [userinfo, setUserInfo] = useState(null);
     const [nombre, setNombre] = useState('');
     const [email, setEmail] = useState('');
