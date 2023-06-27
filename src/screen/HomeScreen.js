@@ -2,6 +2,8 @@ import React, {useContext} from 'react';
 import { Button, View, Text, StyleSheet, Image } from 'react-native';
 import { AuthContext } from "../context/AuthContext";
 
+// import MapView from 'react-native-maps';
+
 const HomeScreen = ({navigation}) => {
     const { user } = useContext(AuthContext);
     const { logout } = useContext(AuthContext);
@@ -18,10 +20,10 @@ const HomeScreen = ({navigation}) => {
                     uri: 'https://cdn-icons-png.flaticon.com/512/2784/2784389.png',
                 } }
             />
-            <Text style={ {color: 'orange', fontSize: 20, fontWeight: 'bold', margin: 10} }>
+            <Text style={ {color: 'red', fontSize: 20, fontWeight: 'bold', margin: 10} }>
                 Aqui va el MAPA
             </Text>
-            <Text>{user}</Text>
+            
             {/* Condicional para saber que navegacion usar */}
             {user !== null ? 
             <View>

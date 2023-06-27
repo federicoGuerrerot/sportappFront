@@ -33,7 +33,7 @@ const FavoriteScreen = ({navigation, route}) => {
                             </Text>
                         </Card.Content>
                         <Card.Actions>
-                            <Button buttonColor={ 'orange' } textColor={ 'white' } style={ {borderColor: 'orange'} }
+                            <Button buttonColor={ 'red' } textColor={ 'white' } style={ {borderColor: 'red'} }
                                     onPress={ () => {
                                         navigation.navigate("Detail", {book: place, name: place.name})
                                     } }>

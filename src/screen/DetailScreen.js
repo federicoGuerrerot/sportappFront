@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+// import MapView, { Marker } from 'react-native-maps';
 
 // dto places
 // id' =>$this->id,
@@ -13,13 +13,13 @@ const DetalleScreen = ({navigation, route}) => {
 
     return (
         <View style={ styles.mainView }>
-            <Text style={ {color: 'orange', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>ID:</Text>
+            <Text style={ {color: 'red', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>ID:</Text>
             <Text style={ {fontSize: 16, paddingBottom: 10} }>{ place.id }</Text>
-            <Text style={ {color: 'orange', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>Nombre:</Text>
+            <Text style={ {color: 'red', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>Nombre:</Text>
             <Text style={ {fontSize: 16, paddingBottom: 10} }>{ place.nombre }</Text>
-            <Text style={ {color: 'orange', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>Direccion:</Text>
+            <Text style={ {color: 'red', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>Direccion:</Text>
             <Text style={ {fontSize: 16, paddingBottom: 10} }>{ place.direccion }</Text>
-            <Text style={ {color: 'orange', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>Telefono:</Text>
+            <Text style={ {color: 'red', fontWeight: 'bold', fontSize: 18, paddingBottom: 5} }>Telefono:</Text>
             <Text style={ {fontSize: 16, paddingBottom: 10} }>{ place.telefono }</Text>
 
             {/* <MapView style={ styles.map }>

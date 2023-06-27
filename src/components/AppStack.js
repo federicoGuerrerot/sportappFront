@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screen/HomeScreen";
 import FavoriteScreen from "../screen/FavoriteScreen";
 import ProfileScreen from "../screen/ProfileScreen";
+import DetailScreen from "../screen/DetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,17 @@ export default function App() {
             component={ ProfileScreen }
             options={ {
                 title: 'Perfil',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            } }
+        />
+        <Stack.Screen
+            name="Detail"
+            component={ DetailScreen }
+            options={ {
+                title: 'Detalles',
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     fontSize: 20

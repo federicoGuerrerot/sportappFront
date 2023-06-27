@@ -13,7 +13,15 @@ const FavoriteScreen = ({navigation, route}) => {
     const [places, setPlaces] = useState([]);
 
     useEffect(() => {
-        getPlaces();
+        if ( AsyncStorage.getItem('places') != null) {
+            getPlaces();
+        } else {
+            AsyncStorage.getItem('places').then((data) => {
+                setPlaces(JSON.parse(data));
+            }
+            );
+        }
+
     }, []);
 
     const getPlaces = async () => {
@@ -28,6 +36,7 @@ const FavoriteScreen = ({navigation, route}) => {
             }).then(response => response.json())
             .then(json => {
                 setPlaces(json.data);
+                AsyncStorage.setItem('places', JSON.stringify(json.data));
             });
         } catch (error) {
             console.error(error);
@@ -47,7 +56,7 @@ const FavoriteScreen = ({navigation, route}) => {
                             </Text>
                         </Card.Content>
                         <Card.Actions>
-                            <Button buttonColor={ 'orange' } textColor={ 'white' } style={ {borderColor: 'orange'} }
+                            <Button buttonColor={ 'red' } textColor={ 'white' } style={ {borderColor: 'red'} }
                                     onPress={ () => {
                                         navigation.navigate("Detail", {place: place, name: place.nombre})
                                     } }>

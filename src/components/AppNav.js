@@ -5,8 +5,7 @@ import AuthStack from "./AuthStack";
 import AppStack from "./AppStack";
 
 import { AuthContext } from "../context/AuthContext";
-import { View } from "react-native-web";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 function AppNav() {
     const { carga, user } = useContext(AuthContext);
