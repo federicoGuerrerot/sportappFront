@@ -6,11 +6,14 @@ import { AuthContext } from "../context/AuthContext";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const RegisterScreen = ({navigation}) => {
     
     const [nombre, setNombre] = useState(null);
+    setNombre(AsyncStorage.getItem('userinfo').nombre);
+    console.log(nombre);
     const [email, setEmail] = useState(null);
     const [telefono, setTelefono] = useState(null);
     const [password, setPassword] = useState(null);
@@ -20,7 +23,7 @@ const RegisterScreen = ({navigation}) => {
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <ScrollView ShowVerticalScrollIndicator={false} style = {{paddingHorizontal: 25}}>
                 <View style = {styles.contInput}>
-                    <MaterialIcons name = "name" size = {24} color = "black" style = {{marginRight: 5}}/>
+                    <MaterialIcons name = "chevron-right" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Nombre"
                         KeyboardType = "name"
@@ -38,7 +41,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                 </View>
                 <View style = {styles.contInput}>
-                    <MaterialIcons name = "telefono" size = {24} color = "black" style = {{marginRight: 5}}/>
+                    <MaterialIcons name = "phone" size = {24} color = "black" style = {{marginRight: 5}}/>
                     <TextInput style = {styles.input}
                         placeholder = "Telefono"
                         KeyboardType = "phone-pad"
