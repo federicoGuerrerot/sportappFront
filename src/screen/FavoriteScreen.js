@@ -29,7 +29,7 @@ const FavoriteScreen = ({navigation, route}) => {
             const storedUserInfo = await AsyncStorage.getItem('userinfo');
             const parsedUserInfo = JSON.parse(storedUserInfo);
             const userid = parsedUserInfo.id;
-            const response = await fetch(`http://localhost:8000/api/users/${userid}/favorites`, {
+            const response = await fetch(`http://192.168.0.104:8000/api/users/${userid}/favorites`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

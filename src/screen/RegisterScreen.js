@@ -12,8 +12,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const RegisterScreen = ({navigation}) => {
     
     const [nombre, setNombre] = useState(null);
-    setNombre(AsyncStorage.getItem('userinfo').nombre);
-    console.log(nombre);
     const [email, setEmail] = useState(null);
     const [telefono, setTelefono] = useState(null);
     const [password, setPassword] = useState(null);

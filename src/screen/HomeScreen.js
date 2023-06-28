@@ -15,56 +15,56 @@ const HomeScreen = ({navigation}) => {
     const [error, setError] = useState(null);
     const keyword = "estadio,gimnasio,cancha de tenis,cancha de baloncesto,cancha de fútbol";
 
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-              setError('Permiso de ubicación denegado');
-              return;
-            }
+    // useEffect(() => {
+    //     (async () => {
+    //         let { status } = await Location.requestForegroundPermissionsAsync();
+    //         if (status !== 'granted') {
+    //           setError('Permiso de ubicación denegado');
+    //           return;
+    //         }
       
-            let currentLocation = await Location.getCurrentPositionAsync({});
-            setLocation(currentLocation.coords);
-          })();
-    }, []);
+    //         let currentLocation = await Location.getCurrentPositionAsync({});
+    //         setLocation(currentLocation.coords);
+    //       })();
+    // }, []);
 
-    useEffect(() => {
-        if (location && spaces.length === 0) {
-            fetchPlaces();
-          }
-    }, [location]);
+    // useEffect(() => {
+    //     if (location && spaces.length === 0) {
+    //         fetchPlaces();
+    //       }
+    // }, [location]);
 
-    const fetchPlaces = async () => {
-        try {
-          const latitude = location.latitude; // Obtén la latitud de la ubicación del dispositivo
-          const longitude = location.longitude; // Obtén la longitud de la ubicación del dispositivo
-          const radius = 1000; // Radio de búsqueda en metros (ejemplo: 1000 metros)
+    // const fetchPlaces = async () => {
+    //     try {
+    //       const latitude = location.latitude; // Obtén la latitud de la ubicación del dispositivo
+    //       const longitude = location.longitude; // Obtén la longitud de la ubicación del dispositivo
+    //       const radius = 1000; // Radio de búsqueda en metros (ejemplo: 1000 metros)
     
-          const types = ['stadium', 'gym', 'tennis_court', 'basketball_court', 'soccer_field'];
-          const promises = types.map(type =>
-            fetch(
-              `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=gym&key=AIzaSyAzt_d5-FliAr5SwdPoJMIbctzLL2Arrmk`
-            ).then(response => response.json())
-          );
-          const responses = await Promise.all(promises);
-          const results = responses.flatMap(response => response.results);
-          setSpaces(results);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+    //       const types = ['stadium', 'gym', 'tennis_court', 'basketball_court', 'soccer_field'];
+    //       const promises = types.map(type =>
+    //         fetch(
+    //           `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=gym&key=AIzaSyAzt_d5-FliAr5SwdPoJMIbctzLL2Arrmk`
+    //         ).then(response => response.json())
+    //       );
+    //       const responses = await Promise.all(promises);
+    //       const results = responses.flatMap(response => response.results);
+    //       setSpaces(results);
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    //   };
     
-      const handleSportChange = (value) => {
-        setSelectedSport(value);
-      };
+    //   const handleSportChange = (value) => {
+    //     setSelectedSport(value);
+    //   };
     
-      const filteredSpaces = selectedSport === 'all'
-        ? spaces
-        : spaces.filter(space => space.types.includes(selectedSport));
+    //   const filteredSpaces = selectedSport === 'all'
+    //     ? spaces
+    //     : spaces.filter(space => space.types.includes(selectedSport));
     
-      if (error) {
-        return <Text>{error}</Text>;
-    }
+    //   if (error) {
+    //     return <Text>{error}</Text>;
+    // }
 
     return (
         <SafeAreaView style={styles.mainView}>

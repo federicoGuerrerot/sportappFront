@@ -11,7 +11,7 @@ export const AuthProvider = ({children}) => {
     const login = async (email, password) => {
         setCarga(true);
         try {
-            const response = await fetch('http://localhost:8000/api/login', {
+            const response = await fetch('http://192.168.0.104:8000/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const AuthProvider = ({children}) => {
     const register = async (nombre, email, telefono, password) => {
         setCarga(true);
         try {
-            const response = await fetch('http://localhost:8000/api/users', {
+            const response = await fetch('http://192.168.0.104:8000/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,9 +71,8 @@ export const AuthProvider = ({children}) => {
 
     const logout = async () => {
         setCarga(true);
-        console.log(await AsyncStorage.getItem('user'));
         try {
-            const response = await fetch('http://localhost:8000/api/logout', {
+            const response = await fetch('http://192.168.0.104:8000/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

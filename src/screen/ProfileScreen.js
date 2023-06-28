@@ -27,7 +27,9 @@ const ProfileScreen = ({navigation, route}) => {
               setUserInfo(parsedUserInfo);
               setNombre(parsedUserInfo.name);
               setEmail(parsedUserInfo.email);
-              setTelefono(parsedUserInfo.telefono);
+            //   set telefono to  string because the TextInput component expects a string value
+              setTelefono(parsedUserInfo.telefono.toString());
+              console.log(telefono);
             }
         } catch (error) {
             console.log(error);
