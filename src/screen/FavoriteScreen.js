@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const FavoriteScreen = ({navigation, route}) => {
     const [places, setPlaces] = useState([]);
 
+
     useEffect(() => {
         if ( AsyncStorage.getItem('places') != null) {
             getPlaces();
@@ -21,12 +22,14 @@ const FavoriteScreen = ({navigation, route}) => {
             }
             );
         }
-
     }, []);
 
     const getPlaces = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/places', {
+            const storedUserInfo = await AsyncStorage.getItem('userinfo');
+            const parsedUserInfo = JSON.parse(storedUserInfo);
+            const userid = parsedUserInfo.id;
+            const response = await fetch(`http://localhost:8000/api/users/${userid}/favorites`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,6 +64,11 @@ const FavoriteScreen = ({navigation, route}) => {
                                         navigation.navigate("Detail", {place: place, name: place.nombre})
                                     } }>
                                 Ver detalle
+                            </Button>
+                        </Card.Actions>
+                        <Card.Actions>
+                            <Button buttonColor={ 'red' } textColor={ 'white' } style={ {borderColor: 'red'} }>
+                                Fav
                             </Button>
                         </Card.Actions>
                     </Card>
