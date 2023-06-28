@@ -1,75 +1,76 @@
-import React, {useContext} from 'react';
-import { Button, View, Text, StyleSheet, Image } from 'react-native';
+import React, {useContext, useState} from 'react';
+import { Button, View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import { AuthContext } from "../context/AuthContext";
+import FloatNav from '../components/FloatNav';
 
 // import MapView from 'react-native-maps';
 
 const HomeScreen = ({navigation}) => {
     const { user } = useContext(AuthContext);
-    const { logout } = useContext(AuthContext);
+    const [mostrar, setMostrar] = useState(false);
     return (
-        <View style={ styles.mainView }>
+        <SafeAreaView style={styles.mainView}>
+            <View style={ styles.mainView }>
+                {/* MAPA AQUI */}
+                
+                <View style={styles.floatNavContainer}>
+                    {/* Condicional para saber que navegacion usar */}
+                    {user !== null ? 
+                    <View>
+                        {mostrar ? (
+                        <>
+                        <FloatNav navigation={navigation} icon='https://cdn-icons-png.flaticon.com/512/9270/9270837.png' destino='Favoritos' estilo={'styles.bttnfav'} />
+                        <FloatNav navigation={navigation} icon='https://cdn-icons-png.flaticon.com/512/64/64572.png' destino='Profile' estilo={'styles.bttnprof'} />
+                        <FloatNav navigation={navigation} icon='https://cdn-icons-png.flaticon.com/512/5528/5528144.png' destino='logout' estilo={'styles.bttnlogout'} />
+                        </>) : null}
+                    </View>
+                    : // else
+                    <View>
+                        {mostrar ?
+                        <FloatNav navigation={navigation} icon='https://cdn-icons-png.flaticon.com/512/64/64572.png' destino='Login' estilo={'styles.bttnlogin'} />
+                        : null}
+                    </View>}
+                </View>
 
-            {/* Poner mapa aqui */}
-            <Image
-                style={ {
-                    width: 100,
-                    height: 100,
-                } }
-                source={ {
-                    uri: 'https://cdn-icons-png.flaticon.com/512/2784/2784389.png',
-                } }
-            />
-            <Text style={ {color: 'red', fontSize: 20, fontWeight: 'bold', margin: 10} }>
-                Aqui va el MAPA
-            </Text>
-            
-            {/* Condicional para saber que navegacion usar */}
-            {user !== null ? 
-            <View>
-            <Button
-                title="Favoritos"
-                onPress={ () => {
-                    navigation.navigate("Favoritos")
-                } }
-            />
-            <Button
-                title="Perfil"
-                onPress={ () => {
-                    navigation.navigate("Profile")
-                } }
-            />
-            <Button
-                title="Logout"
-                onPress={ () => {
-                    {logout()}
-                } } 
-            />
+                <TouchableOpacity
+                    style={ styles.bttnmenu } 
+                    onPress={ () => {
+                        setMostrar(!mostrar)
+                    }}
+                >
+                    <Image
+                        style={ styles.imgmenu }
+                        source={ {uri: 'https://cdn-icons-png.flaticon.com/512/11220/11220845.png'} }
+                    />
+                </TouchableOpacity>
             </View>
-            : // else
-            <View>
-            <Button
-                title="Login"
-                onPress={ () => {
-                    navigation.navigate("Login")
-                } }
-            />
-            <Button
-                title="Register"
-                onPress={ () => {
-                    navigation.navigate("Register")
-                } }
-            />
-            </View>}
-        </View>
+        </SafeAreaView>
     )
 };
 
 const styles = StyleSheet.create({
     mainView: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        padding: 10,
+    },
+    bttnmenu: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 25,
+        bottom: 25,
+    },
+    imgmenu: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
+    },
+    floatNavContainer: {
+        position: 'absolute',
+        right: 25,
+        bottom: 80,
     }
 });
 
