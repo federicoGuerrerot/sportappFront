@@ -1,47 +1,116 @@
 import React, {useContext, useState, useEffect } from 'react';
-import { Button, View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Button, View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { AuthContext } from "../context/AuthContext";
 import FloatNav from '../components/FloatNav';
 
-// import MapView from 'react-native-maps';
-
 const HomeScreen = ({navigation}) => {
     const { user } = useContext(AuthContext);
     const [mostrar, setMostrar] = useState(false);
+    const [selectedSport, setSelectedSport] = useState('all');
+    const [spaces, setSpaces] = useState([]);
     const [location, setLocation] = useState(null);
+    const [error, setError] = useState(null);
+    const keyword = "estadio,gimnasio,cancha de tenis,cancha de baloncesto,cancha de fútbol";
 
     useEffect(() => {
-        getLocation();
-    }
-    , []);
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+              setError('Permiso de ubicación denegado');
+              return;
+            }
+      
+            let currentLocation = await Location.getCurrentPositionAsync({});
+            setLocation(currentLocation.coords);
+          })();
+    }, []);
 
-    const getLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            console.log('Permission to access location was denied');
-        }
-        else {
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        }
-    }
+    useEffect(() => {
+        if (location && spaces.length === 0) {
+            fetchPlaces();
+          }
+    }, [location]);
 
+    const fetchPlaces = async () => {
+        try {
+          const latitude = location.latitude; // Obtén la latitud de la ubicación del dispositivo
+          const longitude = location.longitude; // Obtén la longitud de la ubicación del dispositivo
+          const radius = 1000; // Radio de búsqueda en metros (ejemplo: 1000 metros)
+    
+          const types = ['stadium', 'gym', 'tennis_court', 'basketball_court', 'soccer_field'];
+          const promises = types.map(type =>
+            fetch(
+              `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=gym&key=AIzaSyAzt_d5-FliAr5SwdPoJMIbctzLL2Arrmk`
+            ).then(response => response.json())
+          );
+          const responses = await Promise.all(promises);
+          const results = responses.flatMap(response => response.results);
+          setSpaces(results);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      const handleSportChange = (value) => {
+        setSelectedSport(value);
+      };
+    
+      const filteredSpaces = selectedSport === 'all'
+        ? spaces
+        : spaces.filter(space => space.types.includes(selectedSport));
+    
+      if (error) {
+        return <Text>{error}</Text>;
+    }
 
     return (
         <SafeAreaView style={styles.mainView}>
             <View style={ styles.mainView }>
+
+                <DropDownPicker
+                    items={[
+                    { label: 'Todos los deportes', value: 'all' },
+                    { label: 'Estadios', value: 'stadium' },
+                    { label: 'Gimnasios', value: 'gym' },
+                    { label: 'Canchas de tenis', value: 'tennis_court' },
+                    { label: 'Canchas de baloncesto', value: 'basketball_court' },
+                    { label: 'Canchas de fútbol', value: 'soccer_field' },
+                    ]}
+                    defaultValue={selectedSport}
+                    containerStyle={styles.dropdownContainer}
+                    style={styles.dropdown}
+                    itemStyle={styles.dropdownItem}
+                    dropDownStyle={styles.dropdownMenu}
+                    onChangeItem={item => handleSportChange(item.value)}
+                />
                 {/* MAPA AQUI */}
                 
-                <MapView style={ styles.map }>
-                    { location && <Marker
-                        key={ 1 }
-                        coordinate={ {latitude: location.coords.latitude, longitude: location.coords.longitude} }   
-                        title={ 'Ubicación actual' }
-                        description={ 'Ubicación actual' }
-                    /> }
-                </MapView>
+                {location && (
+                    <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    >
+                    {filteredSpaces.map(space => (
+                        <Marker
+                        key={space.place_id}
+                        coordinate={{
+                            latitude: space.geometry.location.lat,
+                            longitude: space.geometry.location.lng,
+                        }}
+                        title={space.name}
+                        description={space.vicinity}
+                        />
+                    ))}
+                    </MapView>
+                )}
 
                 <View style={styles.floatNavContainer}>
                     {/* Condicional para saber que navegacion usar */}
@@ -105,6 +174,20 @@ const styles = StyleSheet.create({
     map: {
         width: '100%',
         height: '100%',
+    },
+    dropdownContainer: {
+      width: 200,
+      marginBottom: 20,
+    },
+    dropdown: {
+      backgroundColor: "#fafafa",
+    },
+    dropdownItem: {
+      justifyContent: "flex-start",
+    },
+    dropdownMenu: {
+      marginTop: 8,
+      backgroundColor: "#fafafa",
     },
 });
 
