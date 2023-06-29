@@ -113,7 +113,7 @@ const HomeScreen = ({navigation}) => {
 
         <View style={styles.floatNavContainer}>
           {/* Condicional para saber qué navegación usar */}
-          {user !== null ? (
+          {user !== '' ? (
             <>
               {mostrar ? (
                 <>
@@ -136,7 +136,7 @@ const HomeScreen = ({navigation}) => {
         <TouchableOpacity
           style={styles.bttnmenu}
           onPress={() => {
-            setMostrar(!mostrar);
+            dispatch(aAction.setMostrar());
           }}
         >
           <Image
