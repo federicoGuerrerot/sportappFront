@@ -1,15 +1,16 @@
-import React, {useContext, useState} from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
 import AuthStack from "./AuthStack";
 import AppStack from "./AppStack";
 
-import { AuthContext } from "../context/AuthContext";
+import { useSelector } from 'react-redux';
+
+
 import { ActivityIndicator, View } from "react-native";
 
 function AppNav() {
-    const { carga, user } = useContext(AuthContext);
-
+  const {user, carga} = useSelector((state) => state.auth);
     if (carga) {
       return(
         <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
@@ -20,7 +21,7 @@ function AppNav() {
 
     return (
         <NavigationContainer>
-          {user !== null ? <AppStack /> : <AuthStack />}
+          {user !== '' ? <AppStack /> : <AuthStack />}
         </NavigationContainer>
     );
   }

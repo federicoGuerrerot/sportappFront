@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import { SafeAreaView, View, ScrollView, TextInput } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
-import { AuthContext } from '../context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useSelector } from 'react-redux';
 
 const ProfileScreen = ({navigation, route}) => {
 
-    const [userinfo, setUserInfo] = useState(null);
+    const { userinfo } = useSelector((state) => state.auth);
     const [nombre, setNombre] = useState('');
     const [email, setEmail] = useState('');
     const [telefono, setTelefono] = useState('');   
@@ -21,16 +21,11 @@ const ProfileScreen = ({navigation, route}) => {
 
     const getProfile = async () => {
         try {
-            const storedUserInfo = await AsyncStorage.getItem('userinfo');
-            if (storedUserInfo) {
-              const parsedUserInfo = JSON.parse(storedUserInfo);
-              setUserInfo(parsedUserInfo);
-              setNombre(parsedUserInfo.name);
-              setEmail(parsedUserInfo.email);
-            //   set telefono to  string because the TextInput component expects a string value
-              setTelefono(parsedUserInfo.telefono.toString());
-              console.log(telefono);
-            }
+            setNombre(userinfo.name);
+            setEmail(userinfo.email);
+            //set telefono to  string because the TextInput component expects a string value
+            setTelefono(userinfo.telefono.toString());
+            console.log(telefono);
         } catch (error) {
             console.log(error);
         }

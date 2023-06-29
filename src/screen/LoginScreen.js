@@ -1,18 +1,17 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import { SafeAreaView, View, Text, TextInput } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
 
-import { AuthContext } from '../context/AuthContext';
+import useAuth from '../context/AuthContext';
 
 const LoginScreen = ({navigation}) => {
-
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const {login} = useContext(AuthContext);
-    
+    const {login} = useAuth();
+
     return (
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>
             <View style = {{alignItems: 'center', paddingHorizontal: 25}}>

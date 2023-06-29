@@ -9,7 +9,7 @@ import DetailScreen from "../screen/DetailScreen";
 
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function AppStack() {
   return (
       <Stack.Navigator
         initialRouteName="Home"

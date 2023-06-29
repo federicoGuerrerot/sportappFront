@@ -1,12 +1,13 @@
 import React from "react";
 
-import { AuthProvider } from "./src/context/AuthContext";
+import { Provider } from "react-redux";
+import { store } from "./src/redux/Store";
 import AppNav from "./src/components/AppNav";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppNav />
-    </AuthProvider>
+    <Provider store={store}>
+        <AppNav />
+    </Provider>
   );
 }

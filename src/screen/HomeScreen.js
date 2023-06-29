@@ -1,14 +1,17 @@
-import React, {useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { aAction } from "../redux/Store";
+
 import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { AuthContext } from "../context/AuthContext";
 import FloatNav from '../components/FloatNav';
 
 const HomeScreen = ({navigation}) => {
-    const { user } = useContext(AuthContext);
-    const [mostrar, setMostrar] = useState(false);
+    const dispatch = useDispatch();
+    const {user, userinfo, mostrar} = useSelector((state) => state.auth);
     const [selectedSport, setSelectedSport] = useState('all');
     const [spaces, setSpaces] = useState([]);
     const [location, setLocation] = useState(null);
@@ -111,10 +114,9 @@ const HomeScreen = ({navigation}) => {
                     ))}
                     </MapView>
                 )}
-
                 <View style={styles.floatNavContainer}>
                     {/* Condicional para saber que navegacion usar */}
-                    {user !== null ? 
+                    {user !== '' ? 
                     <View>
                         {mostrar ? (
                         <>
@@ -134,7 +136,7 @@ const HomeScreen = ({navigation}) => {
                 <TouchableOpacity
                     style={ styles.bttnmenu } 
                     onPress={ () => {
-                        setMostrar(!mostrar)
+                        dispatch(aAction.setMostrar());
                     }}
                 >
                     <Image

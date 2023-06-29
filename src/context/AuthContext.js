@@ -1,15 +1,14 @@
-import React, {createContext, useState, useEffect} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { aAction } from "../redux/Store";
 
-export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-    const [carga, setCarga] = useState(false);
-    const [user, setUser] = useState(null);
-    const [userinfo, setUserinfo] = useState(null);
+const useAuth = () => {
+    const dispatch = useDispatch();
+    const {user, userinfo, carga} = useSelector((state) => state.auth);
 
-    const login = async (email, password) => {
-        setCarga(true);
+    const login = async (email, password) => {    
+        dispatch(aAction.setCarga(true));
         try {
             const response = await fetch('http://192.168.0.104:8000/api/login', {
                 method: 'POST',
@@ -23,25 +22,18 @@ export const AuthProvider = ({children}) => {
                 }),
             }).then(response => response.json())
             .then(json => {
-                setUser(json.access_token);
-                setUserinfo(json.data);
-                AsyncStorage.setItem('user', json.access_token);
-                AsyncStorage.setItem('userinfo', JSON.stringify(json.data));
+                dispatch(aAction.setUser(json.access_token));
+                dispatch(aAction.setUserInfo(json.data));
             });
-            // const json = await response.json();
-            // setUser(json.access_token);
-            // setUserinfo(json.data);
-            // AsyncStorage.setItem('user', user);
-            // AsyncStorage.setItem('userinfo', JSON.stringify(userinfo));
         } catch (error) {
             console.log(error);
-            setUser(null);
+            dispatch(aAction.setUser(null));
         }
-        setCarga(false);
+        dispatch(aAction.setCarga(false));
     }
 
     const register = async (nombre, email, telefono, password) => {
-        setCarga(true);
+        dispatch(aAction.setCarga(true));
         try {
             const response = await fetch('http://192.168.0.104:8000/api/users', {
                 method: 'POST',
@@ -57,27 +49,25 @@ export const AuthProvider = ({children}) => {
                 }),
             }).then(response => response.json())
             .then(json => {
-                setUser(json.access_token);
-                setUserinfo(json.data);
-                AsyncStorage.setItem('user', json.access_token);
-                AsyncStorage.setItem('userinfo', JSON.stringify(json.data));
+                dispatch(aAction.setUser(json.access_token));
+                dispatch(aAction.setUserInfo(json.data));
             });
         } catch (error) {
             console.log(error);
-            setUser(null);
+            dispatch(aAction.setUser(null));
         }
-        setCarga(false);
+        dispatch(aAction.setCarga(false));
     }
 
     const logout = async () => {
-        setCarga(true);
+        dispatch(aAction.setCarga(true));
         try {
             const response = await fetch('http://192.168.0.104:8000/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                    Authorization: `Bearer ${await AsyncStorage.getItem('user')}`,
+                    Authorization: `Bearer ${user}`,
                 },
             });
             const json = await response.json();
@@ -85,38 +75,14 @@ export const AuthProvider = ({children}) => {
         } catch (error) {
             console.log(error);
         }
-        setUser(null);
-        setUserinfo(null);
-        AsyncStorage.removeItem('user');
-        AsyncStorage.removeItem('userinfo');
-        setCarga(false);
+        dispatch(aAction.setUser(''));
+        dispatch(aAction.setUserInfo(''));
+        dispatch(aAction.setCarga(false));
     }
 
-    const isLogged = async() => {
-        try{
-            setCarga(true);
-            let user = await AsyncStorage.getItem('user');
-            let userinfo = await AsyncStorage.getItem('userinfo');
-            setUser(user);
-            setUserinfo(JSON.parse(userinfo));
-            setCarga(false);
-        }catch(error){
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        isLogged();
-    }, []);
-
-    return (
-        <AuthContext.Provider value = {{ user, userinfo, carga, login, register, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    return {login, register, logout};
 }
-
-
+export default useAuth;
 // login mal
 // message: unautenticado
 // login bien

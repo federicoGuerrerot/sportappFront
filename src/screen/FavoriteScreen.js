@@ -1,7 +1,9 @@
 import React, { useEffect, useState} from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { aAction } from "../redux/Store";
 
 // dto places
 // id' =>$this->id,
@@ -10,36 +12,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // 'telefono' => $this->telefono,
 
 const FavoriteScreen = ({navigation, route}) => {
-    const [places, setPlaces] = useState([]);
-
+    
+    const { user, userinfo, places } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if ( AsyncStorage.getItem('places') != null) {
+        if ( places == []) {
             getPlaces();
-        } else {
-            AsyncStorage.getItem('places').then((data) => {
-                setPlaces(JSON.parse(data));
-            }
-            );
         }
     }, []);
 
     const getPlaces = async () => {
         try {
-            const storedUserInfo = await AsyncStorage.getItem('userinfo');
-            const parsedUserInfo = JSON.parse(storedUserInfo);
-            const userid = parsedUserInfo.id;
+            const userid = userinfo.id;
             const response = await fetch(`http://192.168.0.104:8000/api/users/${userid}/favorites`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                    Authorization: `Bearer ${await AsyncStorage.getItem('user')}`,
+                    Authorization: `Bearer ${user}`,
                 }
             }).then(response => response.json())
             .then(json => {
-                setPlaces(json.data);
-                AsyncStorage.setItem('places', JSON.stringify(json.data));
+                dispatch(aAction.setPlaces(json.data));
             });
         } catch (error) {
             console.error(error);

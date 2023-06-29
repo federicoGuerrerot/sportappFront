@@ -1,21 +1,19 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import { SafeAreaView, View, ScrollView, Text, TextInput } from 'react-native';
-
-import { AuthContext } from "../context/AuthContext";
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';    
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import useAuth from '../context/AuthContext';
 
 const RegisterScreen = ({navigation}) => {
     
+    const {register} = useAuth();
     const [nombre, setNombre] = useState(null);
     const [email, setEmail] = useState(null);
     const [telefono, setTelefono] = useState(null);
     const [password, setPassword] = useState(null);
-    const {register} = useContext(AuthContext);
 
     return (
         <SafeAreaView style = {{flex: 1, justifyContent: 'center'}}>

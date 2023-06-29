@@ -1,14 +1,19 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Image, TouchableOpacity, View } from 'react-native';
-import { AuthContext } from "../context/AuthContext";
+
+import useAuth from '../context/AuthContext';
 
 const FloatNav = ({navigation,icon,destino,estilo}) => {
-    const { logout } = useContext(AuthContext);
+
+    const {logout} = useAuth();
+
     return (
         <TouchableOpacity
         style={ {estilo} } 
         onPress={ () => {
-            {destino == 'logout' ? logout() : navigation.navigate(destino)}
+            {destino == 'logout' ? 
+            logout() 
+            : navigation.navigate(destino)}
         }}
         >
         <Image
