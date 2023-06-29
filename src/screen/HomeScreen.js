@@ -36,32 +36,40 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => {
     if (location && spaces.length === 0) {
       fetchPlaces();
+      // console.log('fetcasdadadasd');
     }
   }, [location]);
 
   const fetchPlaces = async () => {
+    console.log('fetching places');
     try {
       const latitude = location.latitude;
       const longitude = location.longitude;
-      const radius = 1000;
+      const radius = 2000;
 
+      // const types = ['All', 'estadio', 'gym', 'cancha tennis', 'cancha baloncesto', 'cancha futbol'];
       const types = ['stadium', 'gym', 'tennis_court', 'basketball_court', 'soccer_field'];
-      const promises = types.map(type =>
-        fetch(
-          `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${currentValue}&location=${latitude},${longitude}&rankby=distance&key=AIzaSyAzt_d5-FliAr5SwdPoJMIbctzLL2Arrmk`
+      const promises = types.map( async (type) =>
+        await fetch(
+          `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&keyword=${currentValue}&key=AIzaSyAzt_d5-FliAr5SwdPoJMIbctzLL2Arrmk`
         ).then(response => response.json())
       );
       const responses = await Promise.all(promises);
       const results = responses.flatMap(response => response.results);
       setSpaces(results);
+      console.log(results);
     } catch (error) {
       console.error(error);
     }
   };
 
+
   const filteredSpaces = currentValue === 'all'
     ? spaces
     : spaces.filter(space => space.types.includes(currentValue));
+
+  // const filteredSpaces = spaces.filter(space => space.types.includes(currentValue));
+  // setSpaces
 
   return (
     <SafeAreaView style={styles.mainView}>
@@ -78,15 +86,18 @@ const HomeScreen = ({navigation}) => {
               }}
             >
               {filteredSpaces.map(space => (
-                <Marker
-                  key={space.place_id}
-                  coordinate={{
-                    latitude: space.geometry.location.lat,
-                    longitude: space.geometry.location.lng,
-                  }}
-                  title={space.name}
-                  description={space.vicinity}
-                />
+                  <Marker
+                    key={space.place_id}
+                    coordinate={{
+                      latitude: space.geometry.location.lat,
+                      longitude: space.geometry.location.lng,
+                    }}
+                    title={space.name}
+                    description={space.vicinity}
+                    onPress={() => {
+                      navigation.navigate("DetailSpace", { place: space, name: space.name });
+                    }}
+                  />
               ))}
             </MapView>
           )}
@@ -94,11 +105,11 @@ const HomeScreen = ({navigation}) => {
           <DropDownPicker
             items={[
               { label: 'Todos los deportes', value: 'all' },
-              { label: 'Estadios', value: 'stadium' },
+              { label: 'Estadios', value: 'estadio' },
               { label: 'Gimnasios', value: 'gym' },
-              { label: 'Canchas de tenis', value: 'tennis_court' },
-              { label: 'Canchas de baloncesto', value: 'basketball_court' },
-              { label: 'Canchas de fútbol', value: 'soccer_field' },
+              { label: 'Canchas de tenis', value: 'cancha tennis' },
+              { label: 'Canchas de baloncesto', value: 'cancha baloncesto' },
+              { label: 'Canchas de fútbol', value: 'cancha futbol' },
             ]}
             containerStyle={styles.dropdownContainer}
             style={styles.dropdown}
@@ -107,7 +118,10 @@ const HomeScreen = ({navigation}) => {
             open={isOpen}
             setOpen={() => setIsOpen(!isOpen)}
             value={currentValue}
-            setValue={(val) => setCurrentValue(val)}
+            setValue={(val) => {
+              setCurrentValue(val);
+              fetchPlaces();
+            }}
           />
         </View>
 

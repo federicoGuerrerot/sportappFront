@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { aAction } from "../redux/Store";
@@ -13,18 +14,24 @@ import { aAction } from "../redux/Store";
 
 const FavoriteScreen = ({navigation, route}) => {
     
-    const { user, userinfo, places } = useSelector((state) => state.auth);
+    const { user, userinfo, places, carga } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const userid = userinfo.id;
 
     useEffect(() => {
-        if ( places == []) {
+        if ( places.length == 0 ) {
+            console.log(places);
             getPlaces();
+        }
+             else {
+            dispatch(aAction.setCarga(false));
+            console.log("lugares cargados");
         }
     }, []);
 
     const getPlaces = async () => {
         try {
-            const userid = userinfo.id;
+            dispatch(aAction.setCarga(true));
             const response = await fetch(`http://192.168.0.104:8000/api/users/${userid}/favorites`, {
                 method: 'GET',
                 headers: {
@@ -36,9 +43,12 @@ const FavoriteScreen = ({navigation, route}) => {
             .then(json => {
                 dispatch(aAction.setPlaces(json.data));
             });
+            dispatch(aAction.setCarga(false));
         } catch (error) {
             console.error(error);
+            dispatch(aAction.setCarga(false));
         }
+        dispatch(aAction.setCarga(false));
     };
 
     return (

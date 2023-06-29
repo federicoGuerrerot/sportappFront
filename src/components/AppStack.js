@@ -6,6 +6,7 @@ import HomeScreen from "../screen/HomeScreen";
 import FavoriteScreen from "../screen/FavoriteScreen";
 import ProfileScreen from "../screen/ProfileScreen";
 import DetailScreen from "../screen/DetailScreen";
+import DetailSpaceScreen from "../screen/DetailSpaceScreen";
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,17 @@ export default function AppStack() {
             component={ DetailScreen }
             options={ {
                 title: 'Detalles',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            } }
+        />
+        <Stack.Screen
+            name="DetailSpace"
+            component={ DetailSpaceScreen }
+            options={ {
+                title: 'Detalleslugar',
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     fontSize: 20

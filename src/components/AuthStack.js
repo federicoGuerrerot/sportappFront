@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screen/HomeScreen";
 import LoginScreen from "../screen/LoginScreen";
 import RegisterScreen from "../screen/RegisterScreen";
+import DetailSpaceScreen from "../screen/DetailSpaceScreen";
 
 
 const Stack = createStackNavigator();
@@ -46,6 +47,17 @@ export default function AuthStack() {
             component={ RegisterScreen }
             options={ {
                 title: 'Registrate',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 20
+                }
+            } }
+        />
+                <Stack.Screen
+            name="DetailSpace"
+            component={ DetailSpaceScreen }
+            options={ {
+                title: 'Detalleslugar',
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     fontSize: 20

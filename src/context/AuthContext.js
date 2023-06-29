@@ -78,26 +78,9 @@ const useAuth = () => {
         dispatch(aAction.setUser(''));
         dispatch(aAction.setUserInfo(''));
         dispatch(aAction.setCarga(false));
+        dispatch(aAction.setPlaces([]));
     }
 
     return {login, register, logout};
 }
 export default useAuth;
-// login mal
-// message: unautenticado
-// login bien
-// {
-//     "data": {
-//         "id": 1,
-//         "name": "Mi vagabundassasasas danilo",
-//         "email": "danilovag3@gmail.com",
-//         "email_verified_at": null,
-//         "created_at": "2023-06-26T00:16:40.000000Z",
-//         "updated_at": "2023-06-26T00:16:40.000000Z"
-//     },
-//     "access_token": "13|sQqJw2DSnTS3PiC0YEmSjlQHXti54rSc5omU5syq"
-// }
-// logout
-// {
-//     "message": "Logged out"
-// }
